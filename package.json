@@ -4,7 +4,8 @@
   "description": "An Instragram clone with React, TS and Firebase",
   "main": "src/index.js",
   "scripts": {
-    "dev": "webpack-dev-server --mode development",
+    "postinstall": "rm -rf node_modules/@types/react-native",
+    "dev": "webpack-dev-server --mode development --hot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -24,11 +25,13 @@
     "react-router": "^5.2.0",
     "redux": "^4.0.5",
     "redux-form": "^8.3.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.1.1"
   },
   "devDependencies": {
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
+    "@types/styled-components": "^5.1.0",
     "awesome-typescript-loader": "^5.2.1",
     "html-webpack-plugin": "^4.3.0",
     "source-map-loader": "^1.0.0",
