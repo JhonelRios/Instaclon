@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Div = styled.div`
   background-color: #fff;
   padding: 10px 15px;
-  border: 1px solid #eee;
+  border: 1px solid #ddd;
 `;
 
 const Card: React.FC = (props) => {

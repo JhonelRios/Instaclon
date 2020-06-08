@@ -1,27 +1,56 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Route } from 'react-router-dom';
+import { History } from 'history';
 
 import GlobalStyle from './styles/GlobalStyle';
 
-import Card from './components/Card';
-import Container from './components/Container';
-import Input from './components/Input';
-import Button from './components/Button';
-import Title from './components/Title';
-import Link from './components/Link';
+import Login from './containers/Login';
+import Register from './containers/Register';
+import NewsFeed from './containers/NewsFeed';
+import Navbar from './components/Navbar';
+import Profile from './containers/Profile';
+import services from './services';
 
-const App: React.FC = () => {
-  return (
+interface IAppProps {
+  history: History;
+}
+
+const App: React.FC<IAppProps> = (props) => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const { auth } = services;
+
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        if (['/', '/register'].indexOf(location.pathname) > -1) {
+          const { history } = props;
+
+          history.push('/app/newsfeed');
+        }
+      } else {
+        if (/\app\/./.test(location.pathname)) {
+          const { history } = props;
+
+          history.push('/');
+        }
+      }
+
+      console.log(user);
+      setLoading(false);
+    });
+  }, []);
+
+  return loading ? (
+    <h1>Loading</h1>
+  ) : (
     <>
       <GlobalStyle />
-      <Container>
-        <Card>
-          <Title>Iniciar sesión</Title>
-          <Input placeholder="Correo" label="Correo" />
-          <Input placeholder="Contraseña" label="Contraseña" />
-          <Button>Enviar</Button>
-          <Link>Registrarse</Link>
-        </Card>
-      </Container>
+      <Route exact path="/" component={Login} />
+      <Route exact path="/register" component={Register} />
+      <Route path="/app" component={Navbar} />
+      <Route exact path="/app/newsfeed" component={NewsFeed} />
+      <Route exact path="/app/profile" component={Profile} />
     </>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { WrappedFieldProps } from 'redux-form';
 
 const Span = styled.span`
   font-size: 10px;
@@ -22,13 +23,13 @@ interface IInputProps {
   label: string;
 }
 
-const Input: React.FC<IInputProps> = (props) => {
-  const { label } = props;
+const Input: React.FC<WrappedFieldProps & IInputProps> = (props) => {
+  const { label, input } = props;
 
   return (
     <>
       <Span>{label}</Span>
-      <InputStyled {...props} />
+      <InputStyled {...input} {...props} />
     </>
   );
 };

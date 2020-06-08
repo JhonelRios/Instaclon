@@ -20,13 +20,11 @@ module.exports = {
         use: {
           loader: 'awesome-typescript-loader'
         }
-      },
-      {
-        enforce: 'pre',
-        test: /\.js$/,
-        loader: 'source-map-loader'
       }
     ]
+  },
+  devServer: {
+    historyApiFallback: true
   },
   plugins: [
     new HtmlWebpackPlugin({
