@@ -8,7 +8,7 @@ interface IContainerProps {
 const Div = styled.div`
   background-color: #eee;
   height: 100vh;
-  width: 100vw;
+  width: calc(100vw - 15px);
   padding: 10px 15px;
   display: flex;
   flex-direction: column;

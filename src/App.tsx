@@ -35,8 +35,7 @@ const App: React.FC<IAppProps> = (props) => {
           history.push('/');
         }
       }
-
-      console.log(user);
+      
       setLoading(false);
     });
   }, []);

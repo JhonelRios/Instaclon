@@ -16,3 +16,14 @@ export const login = (payload: ILogin) => {
     await auth.signInWithEmailAndPassword(email, password);
   };
 };
+
+export const register = (payload: ILogin) => {
+  return async (dispatch: Dispatch, getState: () => any, { auth, db }: IServices) => {
+    const { email, password } = payload;
+    const { user } = await auth.createUserWithEmailAndPassword(email, password);
+
+    const doc = db.collection('users').doc(user?.uid);
+
+    await doc.set({ role: 'user' });
+  };
+};

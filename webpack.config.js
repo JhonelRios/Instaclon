@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -23,8 +23,15 @@ module.exports = {
       }
     ]
   },
+  stats: {
+    warningsFilter: [/Failed to parse source map/]
+  },
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: {
+      context: () => true,
+      target: 'http://localhost:5001/instaclon-96907/us-central1'
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -6,8 +6,7 @@ import Container from '../components/Container';
 import Title from '../components/Title';
 import LoginForm from '../components/LoginForm';
 
-import { login as loginThunk, ILogin } from '../ducks/Users';
-import { ThunkDispatch } from 'redux-thunk';
+import { login, ILogin } from '../ducks/Users';
 
 interface ILoginProps {
   login: (a: ILogin) => void;
@@ -30,10 +29,14 @@ const mapStateToProps = (state: any) => {
   return state;
 };
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => {
-  return {
-    login: (payload: any) => dispatch(loginThunk(payload))
-  };
-};
+const mapDispatchToProps = {
+  login
+}
+
+// const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => {
+//   return {
+//     login: (payload: any) => dispatch(loginThunk(payload))
+//   };
+// };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

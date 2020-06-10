@@ -1,0 +1,39 @@
+import React from 'react';
+import { reduxForm, InjectedFormProps, Field } from 'redux-form';
+import { Link } from 'react-router-dom';
+
+import Input from './Input';
+import Button from './Button';
+import Center from './Center';
+import { ILogin } from '../ducks/Users';
+
+const RegisterForm: React.FC<InjectedFormProps<ILogin>> = (props) => {
+  const { handleSubmit } = props;
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Field
+        label="Correo"
+        placeholder="Correo"
+        name="email"
+        type="email"
+        component={Input}
+      />
+      <Field
+        label="Contraseña"
+        placeholder="Contraseña"
+        name="password"
+        type="password"
+        component={Input}
+      />
+      <Button block={true}>Enviar</Button>
+      <Center>
+        <Link to="/">Iniciar sesión</Link>
+      </Center>
+    </form>
+  );
+};
+
+export default reduxForm<ILogin>({
+  form: 'register'
+})(RegisterForm);

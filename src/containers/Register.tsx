@@ -1,27 +1,36 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Card from '../components/Card';
 import Container from '../components/Container';
-// import Input from '../components/Input';
-import Button from '../components/Button';
 import Title from '../components/Title';
-import Center from '../components/Center';
+import RegisterForm from '../components/RegisterForm';
 
-const Register: React.FC = () => {
+import { register, ILogin } from '../ducks/Users';
+
+interface IRegisterProps {
+  register: (a: ILogin) => void;
+}
+
+const Register: React.FC<IRegisterProps> = (props) => {
+  const { register } = props;
+
   return (
     <Container center>
       <Card>
         <Title>Registrarse</Title>
-        {/* <Input placeholder="Correo" label="Correo" />
-        <Input placeholder="Contraseña" label="Contraseña" /> */}
-        <Button block={true}>Enviar</Button>
-        <Center>
-          <Link to="/">Iniciar sesión</Link>
-        </Center>
+        <RegisterForm onSubmit={register} />
       </Card>
     </Container>
   );
 };
 
-export default Register;
+const mapStateToProps = (state: any) => {
+  return state;
+};
+
+const mapDispatchToProps = {
+  register
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
