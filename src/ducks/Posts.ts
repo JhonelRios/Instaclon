@@ -1,10 +1,12 @@
 import { Dispatch, AnyAction } from 'redux';
 import { IServices } from '../services';
 import { firestore } from 'firebase';
+import downloadImage from '../utils/downloadImage';
 
 const START = 'post/fetch-start';
 const SUCCESS = 'post/fetch-success';
 const ERROR = 'post/fetch-error';
+const ADD = 'post/add';
 
 export interface IDataPosts {
   [key: string]: {
@@ -27,6 +29,11 @@ const fetchSuccess = (payload: IDataPosts) => ({
 const fetchError = (error: Error) => ({
   type: ERROR,
   error
+});
+
+const add = (payload: IDataPosts) => ({
+  type: ADD,
+  payload
 });
 
 const initialState = {
@@ -56,6 +63,15 @@ export default function reducer(state = initialState, action: AnyAction) {
         ...state,
         error: action.error,
         fetching: false
+      };
+
+    case ADD:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          ...action.payload
+        }
       };
 
     default:
@@ -101,16 +117,54 @@ export const fetchPosts = () => {
 };
 
 export const like = (id: string) => {
-  return async (dispatch: Dispatch, getState: () => void, {}: IServices) => {
-    console.log(id);
-    console.log(
-      await fetch('/api/posts')
-    );
+  return async (dispatch: Dispatch, getState: () => void, { auth }: IServices) => {
+    if (!auth.currentUser) {
+      return;
+    }
+
+    const token = await auth.currentUser.getIdToken();
+
+    await fetch(`/api/posts/${id}/like`, {
+      headers: {
+        authorization: token
+      }
+    });
   };
 };
 
 export const share = (id: string) => {
-  return async (dispatch: Dispatch, getState: () => void, {}: IServices) => {
-    console.log(id);
+  return async (dispatch: Dispatch, getState: () => void, { auth, db, storage }: IServices) => {
+    if (!auth.currentUser) {
+      return;
+    }
+
+    const token = await auth.currentUser.getIdToken();
+
+    const result = await fetch(`/api/posts/${id}/share`, {
+      headers: {
+        authorization: token
+      }
+    });
+
+    const url = await storage.ref(`posts/${id}.jpg`).getDownloadURL();
+    const blob = await downloadImage(url);
+
+    const { id: postId } = await result.json();
+
+    const ref = storage.ref(`posts/${postId}.jpg`);
+    await ref.put(blob);
+
+    const imageURL = await ref.getDownloadURL();
+
+    const snap = await db.collection('posts').doc(postId).get();
+
+    dispatch(
+      add({
+        [snap.id]: {
+          ...snap.data(),
+          imageURL
+        }
+      } as IDataPosts)
+    );
   };
 };

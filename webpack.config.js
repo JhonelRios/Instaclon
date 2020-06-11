@@ -28,10 +28,12 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    proxy: {
-      context: () => true,
-      target: 'http://localhost:5001/instaclon-96907/us-central1'
-    }
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://localhost:5001/instaclon-96907/us-central1'
+      }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -6,7 +6,7 @@ service cloud.firestore {
     }
 
     match /posts/{post} {
-      allow list: if request.auth.uid != null;
+      allow read: if request.auth.uid != null;
     }
   }
 }
