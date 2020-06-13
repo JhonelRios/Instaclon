@@ -8,13 +8,14 @@ const SUCCESS = 'post/fetch-success';
 const ERROR = 'post/fetch-error';
 const ADD = 'post/add';
 
+export interface IPost {
+  comment: string;
+  userId: string;
+  createdAt: firestore.Timestamp;
+  imageURL: string;
+}
 export interface IDataPosts {
-  [key: string]: {
-    comment: string;
-    userId: string;
-    createdAt: firestore.Timestamp;
-    imageURL: string;
-  };
+  [key: string]: IPost;
 }
 
 const fetchStart = () => ({
@@ -133,7 +134,11 @@ export const like = (id: string) => {
 };
 
 export const share = (id: string) => {
-  return async (dispatch: Dispatch, getState: () => void, { auth, db, storage }: IServices) => {
+  return async (
+    dispatch: Dispatch,
+    getState: () => void,
+    { auth, db, storage }: IServices
+  ) => {
     if (!auth.currentUser) {
       return;
     }
@@ -168,3 +173,9 @@ export const share = (id: string) => {
     );
   };
 };
+
+export const handleProfileImgSubmit = (payload: { file: File }) => {
+  return (dispatch: Dispatch, getState: () => void, {}: IServices) => {
+    console.log(payload);
+  }
+}
