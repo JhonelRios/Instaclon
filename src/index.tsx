@@ -10,6 +10,7 @@ import { reducer as formReducer } from 'redux-form';
 import App from './App';
 import * as reducers from './ducks';
 import services from './services';
+import { loadUserInitialData } from './ducks/Users';
 
 const history = createBrowserHistory();
 
@@ -21,10 +22,12 @@ const store = createStore(
   applyMiddleware(thunk.withExtraArgument(services))
 );
 
+const loadInitialData = () => store.dispatch(loadUserInitialData());
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <App history={history} />
+      <App loadInitialData={loadInitialData} history={history} />
     </Router>
   </Provider>,
   document.getElementById('app')

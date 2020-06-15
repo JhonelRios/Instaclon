@@ -13,6 +13,7 @@ import services from './services';
 
 interface IAppProps {
   history: History;
+  loadInitialData: () => void;
 }
 
 const App: React.FC<IAppProps> = (props) => {
@@ -23,6 +24,9 @@ const App: React.FC<IAppProps> = (props) => {
 
     auth.onAuthStateChanged((user) => {
       if (user) {
+        const { loadInitialData } = props;
+        loadInitialData();
+
         if (['/', '/register'].indexOf(location.pathname) > -1) {
           const { history } = props;
 

@@ -7,7 +7,8 @@ import ProfileImg from '../components/ProfileImg';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import { connect } from 'react-redux';
-import { IPost, fetchPosts,handleProfileImgSubmit } from '../ducks/Posts';
+import { IPost, fetchPosts } from '../ducks/Posts';
+import { handleProfileImgSubmit } from '../ducks/Users';
 import services from '../services';
 
 const { auth } = services;
@@ -15,10 +16,11 @@ const { auth } = services;
 interface IProfileProps {
   fetchPosts: () => void;
   submit: (a: string) => FormAction;
-  handleProfileImgSubmit: (a: { file: File }) => void;
+  handleProfileImgSubmit: (a: { profileImg: File }) => void;
   fetched: boolean;
   loading: boolean;
   data: IPost[][];
+  profileImg: string;
 }
 
 const Container = styled.div`
@@ -36,7 +38,7 @@ const Img = styled.img`
 `;
 
 const Profile: React.FC<IProfileProps> = (props) => {
-  const { fetchPosts, fetched, data, submit, handleProfileImgSubmit } = props;
+  const { fetchPosts, fetched, data, submit, handleProfileImgSubmit, profileImg } = props;
 
   useEffect(() => {
     fetchPosts();
@@ -45,7 +47,11 @@ const Profile: React.FC<IProfileProps> = (props) => {
   return (
     <Container>
       <Row>
-        <ProfileImg onSubmit={handleProfileImgSubmit} submit={() => submit('profileImg')} />
+        <ProfileImg
+          image={profileImg}
+          onSubmit={handleProfileImgSubmit}
+          submit={() => submit('profileImg')}
+        />
         <Button>Agregar</Button>
       </Row>
       {data.map((row, i) => (
@@ -65,7 +71,12 @@ const mapStateToProps = (state: any) => {
   const {
     Posts: { data, fetching, fetched }
   } = state;
+  const {
+    Users: { profileImage: tempPI }
+  } = state;
+
   const loading = fetching || !fetched;
+  const profileImg = tempPI || 'http://placekitten.com/100/100';
 
   const filtered = Object.keys(data).reduce((acc, el) => {
     if (data[el].userId !== auth.currentUser?.uid) {
@@ -78,7 +89,8 @@ const mapStateToProps = (state: any) => {
   return {
     data: chunk(filtered, 3),
     loading,
-    fetched
+    fetched,
+    profileImg
   };
 };
 

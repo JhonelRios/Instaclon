@@ -1,7 +1,9 @@
 import { Dispatch, AnyAction } from 'redux';
 import { IServices } from '../services';
 import { firestore } from 'firebase';
+
 import downloadImage from '../utils/downloadImage';
+import { setProfileImage } from './Users';
 
 const START = 'post/fetch-start';
 const SUCCESS = 'post/fetch-success';
@@ -173,9 +175,3 @@ export const share = (id: string) => {
     );
   };
 };
-
-export const handleProfileImgSubmit = (payload: { file: File }) => {
-  return (dispatch: Dispatch, getState: () => void, {}: IServices) => {
-    console.log(payload);
-  }
-}
