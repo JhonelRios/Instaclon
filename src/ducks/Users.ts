@@ -73,8 +73,6 @@ export const handleProfileImgSubmit = (payload: { profileImg: File }) => {
     const response = await ref.child('profileImages').child(`${uid}.jpg`).put(payload.profileImg);
     const url = await response.ref.getDownloadURL();
 
-    console.log(url);
-
     dispatch(setProfileImage(url));
   };
 };

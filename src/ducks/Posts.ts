@@ -3,7 +3,6 @@ import { IServices } from '../services';
 import { firestore } from 'firebase';
 
 import downloadImage from '../utils/downloadImage';
-import { setProfileImage } from './Users';
 
 const START = 'post/fetch-start';
 const SUCCESS = 'post/fetch-success';
