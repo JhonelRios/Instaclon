@@ -9,5 +9,5 @@ Link to the project in production: [Instaclon](https://instaclon-96907.web.app)
   * `npm run dev` run webpack dev server.
   * `npm run build` compile the project for production.
   
-# Licencia
+# Licence
 MIT
