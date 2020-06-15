@@ -7,6 +7,7 @@ import Title from '../components/Title';
 import RegisterForm from '../components/RegisterForm';
 
 import { register, ILogin } from '../ducks/Users';
+import { IState } from '../ducks';
 
 interface IRegisterProps {
   register: (a: ILogin) => void;
@@ -25,7 +26,7 @@ const Register: React.FC<IRegisterProps> = (props) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: IState) => {
   return state;
 };
 

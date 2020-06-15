@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { IPost, fetchPosts } from '../ducks/Posts';
 import { handleProfileImgSubmit } from '../ducks/Users';
 import services from '../services';
+import { IState } from '../ducks';
 
 const { auth } = services;
 
@@ -67,7 +68,7 @@ const Profile: React.FC<IProfileProps> = (props) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: IState) => {
   const {
     Posts: { data, fetching, fetched }
   } = state;

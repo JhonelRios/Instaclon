@@ -7,6 +7,7 @@ import Title from '../components/Title';
 import LoginForm from '../components/LoginForm';
 
 import { login, ILogin } from '../ducks/Users';
+import { IState } from '../ducks';
 
 interface ILoginProps {
   login: (a: ILogin) => void;
@@ -25,7 +26,7 @@ const Login: React.FC<ILoginProps> = (props) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: IState) => {
   return state;
 };
 

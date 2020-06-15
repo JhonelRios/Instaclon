@@ -1,6 +1,8 @@
 import { Dispatch, AnyAction } from 'redux';
 import { IServices } from '../services';
 
+import { IState } from './index';
+
 const SET_PROFILE_IMAGE = 'user/set-profile-image';
 
 export const setProfileImage = (payload: string) => ({
@@ -28,14 +30,14 @@ export default function reducer(state = {}, action: AnyAction) {
 }
 
 export const login = (payload: ILogin) => {
-  return async (dispatch: Dispatch, getState: () => any, { auth }: IServices) => {
+  return async (dispatch: Dispatch, getState: () => IState, { auth }: IServices) => {
     const { email, password } = payload;
     await auth.signInWithEmailAndPassword(email, password);
   };
 };
 
 export const register = (payload: ILogin) => {
-  return async (dispatch: Dispatch, getState: () => any, { auth, db }: IServices) => {
+  return async (dispatch: Dispatch, getState: () => IState, { auth, db }: IServices) => {
     const { email, password } = payload;
     const { user } = await auth.createUserWithEmailAndPassword(email, password);
 
@@ -46,7 +48,7 @@ export const register = (payload: ILogin) => {
 };
 
 export const loadUserInitialData = () => {
-  return async (dispatch: Dispatch, getState: () => any, { auth, storage }: IServices) => {
+  return async (dispatch: Dispatch, getState: () => IState, { auth, storage }: IServices) => {
     if (!auth.currentUser) {
       return
     }
@@ -62,7 +64,7 @@ export const loadUserInitialData = () => {
 }
 
 export const handleProfileImgSubmit = (payload: { profileImg: File }) => {
-  return async (dispatch: Dispatch, getState: () => void, { auth, storage }: IServices) => {
+  return async (dispatch: Dispatch, getState: () => IState, { auth, storage }: IServices) => {
     if (!auth.currentUser) {
       return;
     }

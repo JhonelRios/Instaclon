@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Container from '../components/Container';
 import Post from '../components/Post';
 import { IDataPosts, fetchPosts, like, share } from '../ducks/Posts';
+import { IState } from '../ducks';
 
 interface INewsFeedProps {
   fetchPosts: () => void;
@@ -51,7 +52,7 @@ const NewsFeed: React.FC<INewsFeedProps> = (props) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: IState) => {
   const {
     Posts: { data, fetching, fetched }
   } = state;
