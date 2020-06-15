@@ -4,7 +4,7 @@ import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import thunk, { ThunkAction } from 'redux-thunk';
 import { reducer as formReducer } from 'redux-form';
 
 import App from './App';
@@ -22,7 +22,7 @@ const store = createStore(
   applyMiddleware(thunk.withExtraArgument(services))
 );
 
-const loadInitialData = () => store.dispatch(loadUserInitialData());
+const loadInitialData = () => store.dispatch<any>(loadUserInitialData());
 
 ReactDOM.render(
   <Provider store={store}>

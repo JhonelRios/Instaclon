@@ -44,7 +44,7 @@ const createServer = () => {
     }
   });
 
-  app.get('/posts/:postId/like', async (req, res) => {
+  app.get('/api/posts/:postId/like', async (req, res) => {
     const { uid } = req.user;
     const { postId } = req.params;
 
@@ -79,7 +79,7 @@ const createServer = () => {
     res.sendStatus(204);
   });
 
-  app.get('/posts/:postId/share', async (req, res) => {
+  app.get('/api/posts/:postId/share', async (req, res) => {
     const { uid } = req.user;
     const { postId } = req.params;
 
